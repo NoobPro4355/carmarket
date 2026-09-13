@@ -1,22 +1,22 @@
 # Carmarket
 
-CPM 1 / CPM 2 oyun içi araç pazarı. İlanlar herkese açık, paylaşımlı bir veritabanında (Cloudflare D1) tutulur — fotoğraflar da aynı veritabanında saklanır. Kurulumun hiçbir adımında kredi kartı istenmez.
+CPM 1 / CPM 2 oyun içi araç pazarı. Cloudflare Workers (D1 veritabanı + statik dosya sunumu bir arada) üzerinde çalışır. Kurulumun hiçbir adımında kredi kartı istenmez.
 
-## Kurulum (tamamı Cloudflare dashboard üzerinden, ücretsiz, kartsız)
+## Kurulum
 
-### 1. D1 veritabanını oluştur
-1. Cloudflare panelinde sol menüden **Storage & databases → D1 Database**'e git.
-2. **Create Database** ile `carmarket-db` adında bir veritabanı oluştur.
-3. Veritabanına gir, **Console** sekmesini aç, bu klasördeki `schema.sql` dosyasının içeriğini yapıştırıp çalıştır (tabloyu oluşturur).
+### 1. D1 veritabanını oluştur (eğer henüz yoksa)
+1. Cloudflare panelinde **Storage & databases → D1 Database → Create Database**, adı `carmarket-db`.
+2. Veritabanına gir, **Console** sekmesinde `schema.sql` dosyasının içeriğini çalıştır.
+3. Aynı veritabanının **Overview** sayfasında görünen **Database ID**'yi kopyala.
 
-### 2. Siteyi yükle
-1. **Workers & Pages → Create application → Pages → Upload assets**.
-2. Bu klasörün TAMAMINI (içindeki `functions` klasörü dahil) sürükle bırak.
-3. Proje adını `carmarket` yap ve yükle.
+### 2. wrangler.jsonc dosyasını tamamla
+Bu klasördeki `wrangler.jsonc` dosyasını aç, içindeki `BURAYA_DATABASE_ID_YAPISTIR` yazan yeri 1. adımda kopyaladığın gerçek Database ID ile değiştir.
 
-### 3. Veritabanını projeye bağla (binding)
-1. Oluşan Pages projesine gir → **Settings → Functions**.
-2. **D1 database bindings** kısmına bir binding ekle: değişken adı tam olarak `DB`, veritabanı olarak `carmarket-db` seç.
-3. **Deployments** sekmesinden en son deployment'ı **Retry deployment** ile yeniden dağıt (binding'in aktif olması için gerekli).
+### 3. GitHub'a yükle
+Bu klasördeki TÜM dosyaları (worker.js, wrangler.jsonc, index.html, app.js, styles.css, schema.sql, README.md) GitHub reponun köküne yükle/commit et. Eski `functions` klasörü varsa GitHub'dan sil (artık kullanılmıyor).
 
-Bundan sonra site `carmarket.pages.dev` gibi bir adreste yayında olur ve herkesin eklediği ilanlar herkese görünür — hiçbir aşamada kart bilgisi istenmez.
+### 4. Cloudflare'i bağla / güncelle
+- Proje zaten GitHub'a bağlıysa, bu commit otomatik yeni bir deployment tetikler. `wrangler.jsonc` içindeki D1 binding'i Cloudflare otomatik algılar, dashboard'da elle binding eklemene gerek kalmaz.
+- Eğer proje hiç yoksa: Workers & Pages → Create application → Import a repository → GitHub reponu seç → deploy et.
+
+Birkaç dakika içinde site adresi (`carmarket.<hesap-adın>.workers.dev`) üzerinden yayında olur ve herkesin eklediği ilanlar herkese görünür.

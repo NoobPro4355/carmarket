@@ -1,0 +1,16 @@
+{
+  "name": "carmarket",
+  "compatibility_date": "2026-01-01",
+  "main": "worker.js",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "carmarket-db",
+      "database_id": "c0b861b6-866e-412c-b49c-d2982e3197ab"
+    }
+  ]
+}
