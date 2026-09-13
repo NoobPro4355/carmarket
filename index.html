@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carmarket — CPM Pazarı</title>
+    <meta name="description" content="Car Parking Multiplayer 1 ve CPM 2 için oyun içi araç pazarı" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar"><a class="brand" href="#">car<span>market</span></a><nav><a href="#ilanlar">Pazar</a><a href="#nasil-calisir">Nasıl çalışır?</a></nav><button class="primary small" data-open-form>+ İlan ver</button></header>
+    <main>
+      <section class="hero"><div class="hero-copy"><p class="eyebrow">CAR PARKING MULTIPLAYER PAZARI</p><h1>Aracını <em>oyununa</em><br />göre bul.</h1><p class="lead">CPM 1 ve CPM 2 ilanları birbirinden tamamen ayrıdır. Sadece oyun içi araç takası ve oyun içi para fiyatları için.</p>
+        <div class="game-switch hero-switch" role="tablist" aria-label="Oyun seçimi"><button class="game-tab active" data-game="cpm1"><b>CPM 1</b><small>Car Parking Multiplayer</small></button><button class="game-tab" data-game="cpm2"><b>CPM 2</b><small>Car Parking Multiplayer 2</small></button></div>
+        <div class="search-card"><label>Araç ara<input id="keyword" placeholder="Araç adı, ID veya kullanıcı adı" /></label><label>Oyun içi fiyat<select id="price"><option value="">Tüm fiyatlar</option><option value="100000">100.000 altı</option><option value="500000">500.000 altı</option><option value="1000000">1.000.000 altı</option></select></label><button class="primary" id="searchButton">Pazarı ara <span>→</span></button></div>
+        <div class="hero-stats"><span><strong id="activeCount">0</strong> aktif ilan</span><span><strong>2 oyun</strong> ayrı pazar</span><span><strong>0 TL</strong> gerçek para yok</span></div></div>
+        <div class="hero-visual" aria-hidden="true"><div class="grid-lines"></div><div class="cpm-mark"><span>CPM</span><b id="heroGame">1</b></div><div class="speed-ring"><i></i><strong>MARKET</strong><small>IN-GAME ONLY</small></div><div class="signal one"></div><div class="signal two"></div><p>OYUN İÇİ<br />ARAÇ PAZARI</p></div></section>
+      <section class="categories" aria-label="İlan kategorileri"><button class="active" data-category="">Tümü</button><button data-category="Drift">Drift</button><button data-category="Drag">Drag</button><button data-category="Roleplay">Roleplay</button><button data-category="Tuning">Tuning</button><button data-category="Stock">Stock</button></section>
+      <section class="listing-section" id="ilanlar"><div class="section-heading"><div><p class="eyebrow" id="marketLabel">CPM 1 PAZARI</p><h2 id="marketTitle">CPM 1 ilanları</h2></div><button class="text-button" data-open-form>İlan ver <span>→</span></button></div><div class="listings" id="listings"></div><section class="empty-state" id="empty"><div class="empty-icon">⌁</div><h3>Bu pazarda henüz ilan yok.</h3><p>İlk CPM ilanını sen ekle. İlanlar oyunlara göre ayrı listelenir.</p><button class="primary" data-open-form>İlk ilanı ver <span>→</span></button></section></section>
+      <section class="how" id="nasil-calisir"><div><p class="eyebrow">OYUN İÇİ TİCARET</p><h2>İlanın net, pazarın güvenli olsun.</h2></div><div class="steps"><article><span>01</span><h3>Oyunu seç</h3><p>CPM 1 veya CPM 2 pazarını seç. İlanın yalnızca o oyunda görünür.</p></article><article><span>02</span><h3>Build’ini anlat</h3><p>Motor, vites, livery ve diğer yükseltmeleri eksiksiz ekle.</p></article><article><span>03</span><h3>Oyunda takas yap</h3><p>Karşı tarafla buluşup işlemi yalnızca oyun içinde tamamla.</p></article></div></section>
+    </main>
+    <footer><a class="brand" href="#">car<span>market</span></a><p>Fan yapımı pazar · Olzhass Games ile bağlantılı değildir · Gerçek para işlemi yoktur.</p></footer>
+    <dialog id="listingDialog"><form id="listingForm" novalidate><div class="modal-head"><div><p class="eyebrow">OYUN İÇİ İLAN</p><h2>Aracını listele</h2></div><button class="icon-button" type="button" data-close aria-label="Kapat">×</button></div><div class="form-progress"><span class="active">1. Oyun & araç</span><span>2. Build bilgisi</span><span>3. Fotoğraf & iletişim</span></div>
+
+      <div class="form-step form-grid active" data-step="1">
+        <label>Hangi oyun? <select name="game" id="formGame" required><option value="cpm1">CPM 1 — Car Parking Multiplayer</option><option value="cpm2">CPM 2 — Car Parking Multiplayer 2</option></select></label>
+        <label>İlan kategorisi <select name="category" required><option value="">Seç…</option><option>Drift</option><option>Drag</option><option>Roleplay</option><option>Tuning</option><option>Stock</option></select></label>
+        <label class="wide">Araç adı / oyun içi adı <input required name="vehicle" maxlength="45" placeholder="Örn. M3 build / araç ID" /></label>
+        <label>Oyun içi araç ID <input name="vehicleId" maxlength="20" placeholder="Varsa araç ID'si" /></label>
+      </div>
+
+      <div class="form-step form-grid" data-step="2">
+        <label>Oyun içi fiyat <input required name="price" type="number" min="1" placeholder="Örn. 500000" /></label>
+        <label>Para birimi <select name="currency" required><option value="Cash">Cash</option><option value="Coin">Coin</option></select></label>
+        <label>Motor / HP <input name="engine" maxlength="45" placeholder="Örn. W16 swap · 1200 HP" /></label>
+        <label>Vites / kullanım <input name="gearbox" maxlength="45" placeholder="Örn. 7 vites · drift ayarı" /></label>
+        <label class="wide">Livery ve modifiye detayları <textarea required name="description" maxlength="350" placeholder="Livery, stance, jant, iç mekân, özel parçalar… Alıcının bilmesi gereken her şeyi yaz."></textarea><small class="char-count" id="descCount">0/350</small></label>
+      </div>
+
+      <div class="form-step form-grid" data-step="3">
+        <label class="wide upload-label"><span>İlan fotoğrafları <b>En fazla 5 görsel</b></span><input name="photos" id="photos" type="file" accept="image/*" multiple /><small>Yalnızca oyundan alınmış, aracını gösteren ekran görüntüleri yükle.</small><div class="previews" id="previews"></div></label>
+        <label>Oyuncu ID <input required name="playerId" inputmode="numeric" pattern="[0-9]+" maxlength="20" placeholder="Oyun içi oyuncu ID'n (sadece rakam)" /></label>
+        <label>İletişim yöntemi <select name="contact"><option>Oyun içi arkadaşlık isteği</option><option>Discord</option><option>Instagram</option></select></label>
+        <label class="wide check"><input required type="checkbox" name="rules" /> <span>Bu ilanın yalnızca seçtiğim CPM oyununda geçerli olduğunu, gerçek para veya hesap satışı içermediğini onaylıyorum.</span></label>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="ghost" data-prev hidden>← Geri</button>
+        <button type="button" class="primary" data-next>İleri →</button>
+        <button type="submit" class="primary submit" data-submit hidden>İlanı pazara gönder →</button>
+      </div>
+    </form></dialog>
+
+    <dialog id="detailDialog">
+      <div class="modal-head"><div><p class="eyebrow" id="detailGame">CPM 1</p><h2 id="detailTitle">Araç</h2></div><button class="icon-button" type="button" data-close-detail aria-label="Kapat">×</button></div>
+      <div class="detail-gallery">
+        <button type="button" class="gallery-nav prev" id="detailPrev" aria-label="Önceki fotoğraf">‹</button>
+        <img id="detailMainImg" alt="" />
+        <button type="button" class="gallery-nav next" id="detailNext" aria-label="Sonraki fotoğraf">›</button>
+      </div>
+      <div class="thumbs" id="detailThumbs"></div>
+      <div class="detail-body">
+        <div class="detail-top"><span class="badge" id="detailBadge"></span><b id="detailPrice"></b></div>
+        <p class="detail-meta" id="detailMeta"></p>
+        <p class="detail-meta" id="detailVehicleId"></p>
+        <p id="detailDesc"></p>
+        <div class="detail-contact"><span id="detailPlayerId"></span><span id="detailContact"></span></div>
+        <button type="button" class="ghost danger" id="detailDelete" hidden>İlanı sil</button>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status">İlanın pazara eklendi.</div><script src="app.js"></script>
+  </body>
+</html>
