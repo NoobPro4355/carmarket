@@ -156,9 +156,11 @@ document.querySelector('#photos').addEventListener('change', async event => {
 
 /* ---------- Player ID: digits only ---------- */
 const playerIdField = form.querySelector('input[name="playerId"]');
-playerIdField.addEventListener('input', () => {
-  playerIdField.value = playerIdField.value.replace(/[^0-9]/g, '');
-});
+const stripNonDigits = () => {
+  const clean = playerIdField.value.replace(/[^0-9]/g, '');
+  if (clean !== playerIdField.value) playerIdField.value = clean;
+};
+['input', 'keyup', 'paste', 'change', 'blur'].forEach(evt => playerIdField.addEventListener(evt, () => setTimeout(stripNonDigits, 0)));
 
 /* ---------- Description char counter ---------- */
 const descField = form.querySelector('textarea[name="description"]');
